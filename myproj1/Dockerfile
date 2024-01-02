@@ -11,7 +11,7 @@ COPY email email
 
 RUN mvn package -Dmaven.test.skip=true
 
-FROM eclipse-temurin:21
+FROM openjdk:21-jdk-slim
 
 WORKDIR /app
 
