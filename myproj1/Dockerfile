@@ -1,18 +1,22 @@
-FROM openjdk:21-bookworm
+FROM maven:eclipse-temurin AS builder
 
 WORKDIR /src
 
-COPY src src
-COPY .mvn .mvn
 COPY mvnw .
+COPY mvnw.cmd .
+COPY .mvn .mvn
+COPY src src
 COPY pom.xml .
+COPY email email
 
+RUN mvn package -Dmaven.test.skip=true
 
-RUN ./mvnw package -Dmvn.test.skip=true
+FROM eclipse-temurin:21
 
+WORKDIR /app
 
-COPY /src/target/myproj1-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=builder /src/target/myproj1-0.0.1-SNAPSHOT.jar app.jar
 
-ENV PORT=8080
+EXPOSE ${PORT}
 
-ENTRYPOINT SERVER_PORT=${PORT} java -jar ./app.jar
+ENTRYPOINT SERVER_PORT=${PORT} java -jar app.jar
