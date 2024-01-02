@@ -5,7 +5,6 @@ import jakarta.validation.constraints.Size;
 
 public class Card {
 
-    @Size(min=3, message="Please enter a card name with more than 3 characters")
     private String cardName;
     @Min(0)
     private Integer cmc = 0;

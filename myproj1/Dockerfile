@@ -1,22 +1,19 @@
-FROM maven:eclipse-temurin AS builder
+FROM openjdk:21-bookworm as builder
 
 WORKDIR /src
 
-COPY mvnw .
-COPY mvnw.cmd .
-COPY .mvn .mvn
 COPY src src
+COPY .mvn .mvn
+COPY mvnw .
 COPY pom.xml .
-COPY email email
 
-RUN mvn package -Dmaven.test.skip=true
-
-FROM openjdk:21-jdk-slim
+RUN ./mvnw package -Dmvn.test.skip=true
 
 WORKDIR /app
 
-COPY --from=builder /src/target/myproj1-0.0.1-SNAPSHOT.jar app.jar
+# copy and rename to app.jar
+COPY --from=builder /src/target/myproj1-SNAPSHOT.jar app.jar
 
-EXPOSE ${PORT}
+ENV PORT=8080
 
-ENTRYPOINT SERVER_PORT=${PORT} java -jar app.jar
+ENTRYPOINT SERVER_PORT=${PORT} java -jar ./app.jar

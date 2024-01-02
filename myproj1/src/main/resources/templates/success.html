@@ -3,14 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Success!</title>
+    <style>
+        body {
+        background-color: aquamarine;
+        background-blend-mode: hue;
+        }
+  
+        h1 {
+        color: rgb(35, 164, 35);
+        font-family: 'Arial';
+        font-size: 500%;
+        text-align: center;
+        }
+
+        h2{
+            color: black;
+        font-family: serif;
+        font-size: 400%;
+        text-align: center;
+        font-style: italic;
+        }|
+
+        h3{
+            color: grey;
+        font-family: 'Arial';
+        font-size: 300%;
+        text-align: center;
+
+        }
+        </style>
 </head>
 <body>
-    <h1 th:object="${user}">You have added</h1><h1 th:text="${card.cardName}"></h1><h1> to your deck.</h1>
-
-    <div class="container" th:unless="${#lists.isEmpty(deck.cards)}">
-        <table>
-          <tr><th>Card Name</th>
+    <div class="container-sm" th:unless="${#lists.isEmpty(deck.cards)}">
+        <h1 th:object="${user}" >You have added</h1><h2 th:text="${card.cardName}"></h2><h1> to your deck.</h1>
+        <h3>Your deck has the following cards:</h3>
+        <table style="background-color:slateblue;color:white;padding:20px;border-color:antiquewhite;border-style: double;border-width: 5px;">
+            <tr style="border-color:antiquewhite;border-style: double;border-width: 5px;">
+            <th style="border-color:antiquewhite;border-width: 2px;">Card Name</th>
           <th>Card Text</th>
           <th>Mana Cost</th>
           <th>Color</th>
@@ -18,15 +49,18 @@
           </tr>
   
           <tr th:each="c : ${deck.cards}" th:object="${c}">
-            <td th:text="*{cardName}"></td>
-            <td th:text="*{cardText}"></td>
+            <td th:text="*{cardName}" style="border-color:antiquewhite;border-width: 2px;"></td>
+            <td th:text="*{cardText}" style="font-size:70%"></td>
             <td th:text="*{cmc}"></td>
             <td th:text="*{cardColor}"></td>
             <td th:text="*{cardPrice}"></td>
           </tr>
         </table>
-  
-        <a href="/">Click here to go back</a>
+        <div>
+        <div style="text-align: center;background-color: whitesmoke;"></div>
+     
+        <a href="/" style="background-color:grey;outline-style: outset;color:white; margin:auto; text-align:center; display:block;">Click here to go back</a>   
+        </div>
       </div>
     
 </body>

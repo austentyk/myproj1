@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,10 +42,15 @@ public class CardController {
     @GetMapping("/search")
     public String getSearch(@Valid @ModelAttribute Card card, BindingResult result, Model model) {
         
+        if (card.getCardName().isEmpty())
+            {result.addError(new FieldError("card", "cardName", "Please enter more than 1 character"));}
+        if (result.hasErrors()){
+            return "search";} else {
+
         List<Card> cards = cardService.searchForCards(card.getCardName());
         model.addAttribute("card", card);
         model.addAttribute("cards", cards);
-        return "search";
+        return "search"; }
 
         
     }
@@ -102,13 +108,17 @@ public class CardController {
     }
 
     @PostMapping("/loaddeck")
-    public String loadDeckList(@RequestBody MultiValueMap<String, String> mvm, HttpSession session) {
+    public String loadDeckList(@RequestBody MultiValueMap<String, String> mvm,BindingResult result, HttpSession session) {
+        
+
+
         String deckId = mvm.getFirst("deckId");
+
         Deck deck = cardService.getDeck(deckId);
         if (deck != null) {
             session.setAttribute("deck", deckId);
             return "redirect:/viewdeck";
-        }
+        } 
         return "error";
     }
 

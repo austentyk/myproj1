@@ -61,8 +61,15 @@ public class CardService {
            JsonObject prices = obj.getJsonObject("prices");
             card.setCardPrice(prices.getString("usd",""));
 
-            String colors = obj.getJsonArray("colors").toString();
-            card.setCardColor(colors);
+            JsonArray color = obj.getJsonArray("colors");
+            if (color != null) {
+                String colors = color.toString();
+                card.setCardColor(colors);
+            } else {
+                String colors = "[]";
+                 card.setCardColor(colors);
+            }
+
 
             cards.add(card);
         }
@@ -93,8 +100,14 @@ public class CardService {
         JsonObject prices = obj.getJsonObject("prices");
         card.setCardPrice(prices.getString("usd",""));
 
-        String colors = obj.getJsonArray("colors").toString();
-        card.setCardColor(colors);
+            JsonArray color = obj.getJsonArray("colors");
+            if (color != null) {
+                String colors = color.toString();
+                card.setCardColor(colors);
+            } else {
+                String colors = "[]";
+                 card.setCardColor(colors);
+            }
 
         return card;
     }
