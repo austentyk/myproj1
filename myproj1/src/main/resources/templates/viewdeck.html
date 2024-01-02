@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Deck</title>
+</head>
+<body>
+    <div class="container" th:unless="${deck} == null">
+        <p>Your deck ID is <span th:text="${deck.id}"></span>.</p>
+        <a href="/unloaddeck">Unload Deck</a>
+        <table>
+          <tr><th>Card Name</th>
+          <th>Card Text</th>
+          <th>Mana Cost</th>
+          <th>Color</th>
+          <th>Price</th>
+          </tr>
+  
+          <tr th:each="c : ${deck.cards}" th:object="${c}">
+            <td th:text="*{cardName}"></td>
+            <td th:text="*{cardText}"></td>
+            <td th:text="*{cmc}"></td>
+            <td th:text="*{cardColor}"></td>
+            <td th:text="*{cardPrice}"></td>
+          </tr>
+        </table>
+
+        <a href="/">Click here to add more cards</a>
+        <a href="/">Click here to return</a>
+    </div>
+    <div class="container" th:if="${deck} == null">
+        <form th:action="@{/loaddeck}" method="POST">
+            <div class="mb-3">
+                <label class="form-label">Deck ID</label>
+                <input type="text" class="form-control" name="deckId">
+                <div id="deckId" class="form-text"></div>
+              </div>
+              <button type="submit" class="btn btn-primary">Load</button>
+              <a href="/createdeck" class="btn btn-success">Create</button>
+        </form>
+    </div>
+    
+</body>
+</html>
